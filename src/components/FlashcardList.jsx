@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Flashcard from "./Flashcard";
-import AddFlashcard from "./AddFlashcard";
+import AddFlashcard from "./AddFlashcard"
 import { getFlashcards } from "../services/flashcardsAPI";
 
 export default function FlashcardList() {
-  const [flashcards, setFlashcards] = useState([]); // Inicializar con array vacío
+  const { groupId } = useParams();
+  const [flashcards, setFlashcards] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingCard, setEditingCard] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado de carga
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getFlashcards();
-        setFlashcards(data || []); // Asegurar array vacío si es null
+        if (groupId) {
+          const data = await getFlashcards(groupId);
+          setFlashcards(data || []);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -23,35 +27,41 @@ export default function FlashcardList() {
     };
     
     fetchData();
-  }, []);
+  }, [groupId]);
 
   if (loading) {
-    return <div className="text-center text-accent">Loading...</div>;
+    return <div className="text-center text-blue-500 animate-pulse">Loading flashcards...</div>;
   }
 
   if (error) {
-    return <div className="text-center text-red-500">Error: {error}</div>;
+    return (
+      <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg text-center">
+        Error: {error}
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
-      <div className="flex justify-end mb-8">
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-2xl font-bold text-gray-800">Flashcards</h2>
         <button
           onClick={() => setShowAddForm(true)}
-          className="btn-primary"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
         >
-          Add Flashcard
+          + New Flashcard
         </button>
       </div>
 
       {showAddForm && (
         <AddFlashcard
+          groupId={groupId}
           onClose={() => {
             setShowAddForm(false);
             setEditingCard(null);
           }}
           refreshList={() => {
-            getFlashcards()
+            getFlashcards(groupId)
               .then(data => setFlashcards(data || []))
               .catch(err => setError(err.message));
           }}
@@ -59,20 +69,29 @@ export default function FlashcardList() {
         />
       )}
 
-      <div className="grid gap-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {flashcards.length === 0 ? (
-          <p className="text-center text-gray-400">No flashcards available. Create your first one!</p>
+          <div className="col-span-full text-center py-12">
+            <p className="text-gray-500 mb-4">No flashcards found in this group</p>
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg"
+            >
+              Create First Flashcard
+            </button>
+          </div>
         ) : (
           flashcards.map((card) => (
             <Flashcard
               key={card.id}
               card={card}
+              groupId={groupId}
               onEdit={() => {
                 setEditingCard(card);
                 setShowAddForm(true);
               }}
               onDelete={() => {
-                getFlashcards()
+                getFlashcards(groupId)
                   .then(data => setFlashcards(data || []))
                   .catch(err => setError(err.message));
               }}

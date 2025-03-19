@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3000/flashcards";
+// src/services/flashcardsAPI.js
+const API_BASE = "http://localhost:3000/api";
 
 const handleResponse = async (response) => {
   if (!response.ok) {
@@ -8,9 +9,30 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-export const getFlashcards = async () => {
+const getAuthHeader = () => ({
+  "Authorization": `Bearer ${localStorage.getItem("token")}`
+});
+
+// Función DELETE corregida y exportada
+export const deleteFlashcard = async (flashcardId) => {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_BASE}/flashcards/${flashcardId}`, {
+      method: "DELETE",
+      headers: getAuthHeader()
+    });
+    return handleResponse(response);
+  } catch (error) {
+    console.error("DELETE Error:", error);
+    throw error;
+  }
+};
+
+// Asegúrate de exportar TODAS las funciones necesarias
+export const getFlashcards = async (groupId) => {
+  try {
+    const response = await fetch(`${API_BASE}/groups/${groupId}/flashcards`, {
+      headers: getAuthHeader()
+    });
     return handleResponse(response);
   } catch (error) {
     console.error("GET Error:", error);
@@ -18,12 +40,15 @@ export const getFlashcards = async () => {
   }
 };
 
-export const createFlashcard = async (card) => {
+export const createFlashcard = async (groupId, card) => {
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_BASE}/groups/${groupId}/flashcards`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(card),
+      headers: { 
+        ...getAuthHeader(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(card)
     });
     return handleResponse(response);
   } catch (error) {
@@ -32,28 +57,19 @@ export const createFlashcard = async (card) => {
   }
 };
 
-export const updateFlashcard = async (id, card) => {
+export const updateFlashcard = async (flashcardId, groupId, card) => {
   try {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await fetch(`${API_BASE}/flashcards/${flashcardId}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(card),
+      headers: { 
+        ...getAuthHeader(),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(card)
     });
     return handleResponse(response);
   } catch (error) {
     console.error("PUT Error:", error);
-    throw error;
-  }
-};
-
-export const deleteFlashcard = async (id) => {
-  try {
-    const response = await fetch(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
-    return handleResponse(response);
-  } catch (error) {
-    console.error("DELETE Error:", error);
     throw error;
   }
 };
