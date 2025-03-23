@@ -32,8 +32,19 @@ export const AuthProvider = ({ children }) => {
     navigate("/login");
   };
 
+  const register = async (email, password) => {
+    try {
+      const response = await api.post("/register", { email, password });
+      setToken(response.data.token);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Registration failed:", error);
+      throw error; // Para manejar el error en el componente
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );
