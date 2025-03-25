@@ -26,43 +26,52 @@ export default function AddFlashcard({ groupId, onClose, refreshList, editData }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">{editData ? "Edit" : "New"} Flashcard</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-4">
+    <div className="fixed inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-gray-800 rounded-xl shadow-xl shadow-gray-950/30 p-6 w-full max-w-md border border-gray-700">
+        <h2 className="text-xl font-bold text-indigo-400 mb-6">
+          {editData ? "Edit Flashcard" : "New Flashcard"}
+        </h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-5">
             <div>
-              <label className="block text-sm font-medium mb-1">Question</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Question</label>
               <input
                 required
                 value={formData.question}
                 onChange={(e) => setFormData({...formData, question: e.target.value})}
-                className="w-full p-2 border rounded"
+                className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+                placeholder="Enter question"
               />
             </div>
+            
             <div>
-              <label className="block text-sm font-medium mb-1">Answer</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Answer</label>
               <input
                 required
                 value={formData.answer}
                 onChange={(e) => setFormData({...formData, answer: e.target.value})}
-                className="w-full p-2 border rounded"
+                className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+                placeholder="Enter answer"
               />
             </div>
+            
             <div>
-              <label className="block text-sm font-medium mb-1">Pronunciation</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Pronunciation</label>
               <input
                 value={formData.pronunciation}
                 onChange={(e) => setFormData({...formData, pronunciation: e.target.value})}
-                className="w-full p-2 border rounded"
+                className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors"
+                placeholder="Pronunciation guide (optional)"
               />
             </div>
+            
             <div>
-              <label className="block text-sm font-medium mb-1">Difficulty</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Difficulty</label>
               <select
                 value={formData.difficulty}
                 onChange={(e) => setFormData({...formData, difficulty: e.target.value})}
-                className="w-full p-2 border rounded"
+                className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none cursor-pointer"
               >
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
@@ -70,17 +79,18 @@ export default function AddFlashcard({ groupId, onClose, refreshList, editData }
               </select>
             </div>
           </div>
-          <div className="mt-6 flex justify-end gap-3">
+
+          <div className="flex justify-end gap-3 mt-8">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800"
+              className="px-6 py-2.5 text-gray-400 hover:text-gray-200 transition-colors font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+              className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg transition-colors focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800"
             >
               {editData ? "Save Changes" : "Create Flashcard"}
             </button>
