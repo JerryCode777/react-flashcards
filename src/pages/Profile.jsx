@@ -1,84 +1,63 @@
-import { useEffect, useState } from 'react';
-import { getCurrentUser, updateUser } from '../services/usersAPI';
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { api } from "../api/api";
+import Navbar from "../components/Navbar";
 
-const Profile = () => {
-  const [user, setUser] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(true);
+export default function Profile() {
+  const { user, logout } = useAuth();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
 
   useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const data = await getCurrentUser();
-        setUser(data);
-        setFormData(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadUser();
-  }, []);
+    if (user) {
+      setFormData(prev => ({ ...prev, email: user.email }));
+    }
+  }, [user]);
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     try {
-      const updatedUser = await updateUser(formData);
-      setUser(updatedUser);
-      setEditMode(false);
+      await api.put("/users", formData);
+      alert("Profile updated successfully");
     } catch (error) {
-      console.error(error);
+      console.error("Update failed:", error);
     }
   };
 
-  if (loading) return <div className="text-center p-8">Cargando...</div>;
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete your account?")) {
+      try {
+        await api.delete("/users");
+        logout();
+      } catch (error) {
+        console.error("Delete failed:", error);
+      }
+    }
+  };
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Perfil de usuario</h1>
-          <button
-            onClick={() => setEditMode(!editMode)}
-            className="text-indigo-600 hover:text-indigo-800"
-          >
-            {editMode ? 'Cancelar' : 'Editar'}
-          </button>
-        </div>
-
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Nombre</label>
-            {editMode ? (
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              />
-            ) : (
-              <p className="mt-1 text-gray-900">{user.name}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <p className="mt-1 text-gray-900">{user.email}</p>
-          </div>
-
-          {editMode && (
-            <button
-              onClick={handleUpdate}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-            >
-              Guardar cambios
-            </button>
-          )}
-        </div>
-      </div>
+    <div>
+      <h1>Profile Settings</h1>
+      <form onSubmit={handleUpdate}>
+        <input
+          type="email"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          value={formData.password}
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          placeholder="New Password"
+        />
+        <button type="submit">Update Profile</button>
+      </form>
+      <button onClick={handleDelete} style={{ marginTop: "1rem", background: "red", color: "white" }}>
+        Delete Account
+      </button>
     </div>
   );
-};
-
-export default Profile;
+}

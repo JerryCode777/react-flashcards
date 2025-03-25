@@ -1,12 +1,12 @@
 import React from 'react'
-import FlashcardList from '../components/FlashcardList'
+import CreateGroup from '../components/CreateGroup'
 
 const Create = () => {
   return (
     <>
-        <FlashcardList />
+      <CreateGroup/>
     </>
   )
 }
 
-export default Create
+export default Create 

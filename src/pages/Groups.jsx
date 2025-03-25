@@ -1,8 +1,11 @@
 import React from 'react'
+import GroupList from '../components/GroupList'
 
 const Groups = () => {
   return (
-    <div>Groups</div>
+    <>
+      <GroupList />
+    </>
   )
 }
 
