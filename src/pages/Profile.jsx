@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { api } from "../api";
+import { api } from "../api/api";
 import Navbar from "../components/Navbar";
 
 export default function Profile() {
@@ -39,7 +39,6 @@ export default function Profile() {
 
   return (
     <div>
-      <Navbar />
       <h1>Profile Settings</h1>
       <form onSubmit={handleUpdate}>
         <input
