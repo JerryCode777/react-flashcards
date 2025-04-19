@@ -37,7 +37,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-slate-900">
       <div className="bg-slate-800 p-8 rounded-xl shadow-2xl w-96 backdrop-blur-sm border border-slate-700">
         <h1 className="text-3xl font-bold mb-6 text-center text-white">
-          Iniciar Sesión
+          Login
         </h1>
 
         {errorMessage && (
@@ -54,14 +54,14 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-white placeholder-slate-400"
-              placeholder="tucorreo@ejemplo.com"
+              placeholder="user@example.com"
               required
               disabled={loading}
             />
           </div>
 
           <div className="mb-6">
-            <label className="block mb-2 text-slate-300 font-medium">Contraseña</label>
+            <label className="block mb-2 text-slate-300 font-medium">Password</label>
             <input
               type="password"
               value={password}
@@ -84,9 +84,9 @@ export default function Login() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Iniciando...
+                Starting...
               </span>
-            ) : 'Ingresar'}
+            ) : 'Log in'}
           </button>
 
           <button 
@@ -94,7 +94,7 @@ export default function Login() {
             onClick={() => navigate("/register")}
             className="w-full bg-slate-700 hover:bg-slate-600 text-slate-300 py-3 px-4 rounded-lg font-medium transition-colors"
           >
-            Crear Cuenta
+            Create Acount 
           </button>
         </form>
       </div>
