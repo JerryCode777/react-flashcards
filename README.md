@@ -7,7 +7,7 @@
 
 ---
 
-![Pantalla de inicio de sesión](imagen.png)
+![Pantalla de inicio de sesión](ruta/a/la/imagen.png)
 
 ---
 
@@ -40,46 +40,62 @@ Esta aplicación web de **Flashcards** está diseñada para facilitar el aprendi
 ### Frontend
 
 ```plaintext
-/src
-├── components
-│   ├── Navbar.jsx
-│   ├── PrivateRoute.jsx
-├── context
-│   ├── AuthContext.jsx
-│   ├── GroupsContext.jsx
-├── pages
-│   ├── Login.jsx
-│   ├── Register.jsx
-│   ├── Dashboard.jsx
-│   ├── Profile.jsx
-│   ├── Groups.jsx
-│   ├── Create.jsx
-│   ├── Flashcards.jsx
-├── App.jsx
+/frontend
+├── public
+│   └── index.html
+├── src
+│   ├── assets
+│   │   └── logo.png
+│   ├── components
+│   │   ├── Navbar.jsx
+│   │   ├── PrivateRoute.jsx
+│   ├── context
+│   │   ├── AuthContext.jsx
+│   │   ├── GroupsContext.jsx
+│   ├── pages
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── Profile.jsx
+│   │   ├── Groups.jsx
+│   │   ├── Create.jsx
+│   │   ├── Flashcards.jsx
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── tailwind.config.js
+├── postcss.config.js
+├── vite.config.js
+├── package.json
 ```
-
-El archivo `App.jsx` es el punto de entrada principal donde se configuran las rutas protegidas y públicas mediante `react-router-dom`. A través de los contextos `AuthProvider` y `GroupsProvider`, se maneja la autenticación de usuarios y la gestión de grupos.
 
 ### Backend
 
 ```plaintext
 /backend
-├── api
-│   ├── models.py
-│   ├── views.py
-│   ├── serializers.py
+├── manage.py
+├── requirements.txt
 ├── flashcards_project
+│   ├── __init__.py
 │   ├── settings.py
 │   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+├── api
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── serializers.py
+│   ├── views.py
+│   ├── urls.py
+│   └── permissions.py
 ```
 
-El backend expone endpoints REST para:
+El proyecto de Django está dividido en:
 
-* Registro e inicio de sesión de usuarios
-* CRUD de grupos de estudio
-* CRUD de tarjetas flashcard
-
-La autenticación se implementa con JWT y se gestiona desde el frontend para mantener sesiones activas.
+* `api`: contiene la lógica de negocio y exposición de los endpoints.
+* `flashcards_project`: configuración global del proyecto, incluyendo CORS, conexión a Supabase/PostgreSQL, y JWT.
 
 ## Funcionalidades Principales
 
