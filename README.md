@@ -7,7 +7,7 @@
 
 ---
 
-![Pantalla de inicio de sesión](ruta/a/la/imagen.png)
+![Pantalla de inicio de sesión](imagen.png)
 
 ---
 
