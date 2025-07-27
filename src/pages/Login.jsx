@@ -123,14 +123,19 @@ export default function Login() {
           </button>
         </form>
       </div>
-
-      {/* Créditos fuera del cuadro */}
-      <p className="mt-6 text-blue-200 text-sm text-center max-w-sm">
-        Desarrollado por Alejandra Camila Choque Sánchez y Jerry Anderson Huaynacho Mango<br />
-      </p>
-      <p className="mt-6 text-blue-100 text-sm text-center max-w-sm">
-        Curso de Programación Web Grupo B - 2025
-      </p>
+      <div className="mt-10 text-center" style={{ fontFamily: "'Roboto', sans-serif" }}>
+        <p className="text-sm text-slate-400 tracking-wide uppercase mb-1">
+          Desarrollado por
+        </p>
+        <p className="text-md text-white font-medium">
+          Alejandra Camila Choque Sánchez <br />
+          Jerry Anderson Huaynacho Mango
+        </p>
+        <p className="text-sm text-slate-500 mt-1 italic">
+          Curso de Programación Web - Grupo B, 2025
+        </p>
+      </div>
+      
     </div>
   );
 }
