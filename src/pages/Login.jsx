@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png"; // asegúrate que esta ruta es correcta
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -34,18 +35,42 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-900 px-4">
+      {/* Título general */}
+      <div className="text-center text-white mb-8">
+        <h1 className="text-3xl font-semibold text-blue-200 text-center"
+          style={{ fontFamily: "'Dancing Script', cursive", transition: 'opacity 1s ease-in-out', opacity: 1 }}
+        >
+          English - Spanish Flashcards
+        </h1>
+        <p 
+          className="text-cyan-200 text-2xl mt-2"
+          style={{ fontFamily: "'Dancing Script', cursive", transition: 'opacity 1s ease-in-out', opacity: 1 }}
+        >
+          Aprende vocabulario y gramática en ambos idiomas con tarjetas interactivas y grupos de estudio.
+        </p>
+      </div>
       <div className="bg-slate-800 p-8 rounded-xl shadow-2xl w-96 backdrop-blur-sm border border-slate-700">
+        {/* Logo reducido */}
+        <img 
+          src={logo} 
+          alt="Logo de la universidad" 
+          className="mx-auto mb-4 h-16 w-auto"
+        />
+
+        {/* Título de login */}
         <h1 className="text-3xl font-bold mb-6 text-center text-white">
           Login
         </h1>
 
+        {/* Error */}
         {errorMessage && (
           <div className="mb-4 p-3 bg-red-900/30 text-red-300 rounded-lg border border-red-800/50 text-sm">
             {errorMessage}
           </div>
         )}
 
+        {/* Formulario */}
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
             <label className="block mb-2 text-slate-300 font-medium">Email</label>
@@ -94,10 +119,18 @@ export default function Login() {
             onClick={() => navigate("/register")}
             className="w-full bg-slate-700 hover:bg-slate-600 text-slate-300 py-3 px-4 rounded-lg font-medium transition-colors"
           >
-            Create Acount 
+            Create Account 
           </button>
         </form>
       </div>
+
+      {/* Créditos fuera del cuadro */}
+      <p className="mt-6 text-blue-200 text-sm text-center max-w-sm">
+        Desarrollado por Alejandra Camila Choque Sánchez y Jerry Anderson Huaynacho Mango<br />
+      </p>
+      <p className="mt-6 text-blue-100 text-sm text-center max-w-sm">
+        Curso de Programación Web Grupo B - 2025
+      </p>
     </div>
   );
 }
